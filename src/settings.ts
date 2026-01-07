@@ -1,36 +1,49 @@
-import {App, PluginSettingTab, Setting} from "obsidian";
-import MyPlugin from "./main";
+import { DEFAULT_TEMPLATE } from './assets/defaultTemplate'; // Import the constant
 
-export interface MyPluginSettings {
-	mySetting: string;
+export type ListMode = 'blacklist' | 'whitelist';
+
+export interface SidecarCreatorSettings {
+	importEnabled: boolean;
+	importListMode: ListMode;
+	importPatterns: string;
+	importEnableCanvas: boolean;
+	importEnableBases: boolean;
+
+	// Naming & Templates
+	namingPattern: string;
+	storageLocation: string;
+	templateEngine: string;
+	templateContent: string; // <-- New field
+
+	// Automation
+	autoScanOnStartup: boolean;
+	conflictResolution: string;
+	deleteBehavior: string;
+
+	// ...other fields if needed
+	language: string;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
+export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
+	importEnabled: true,
+	importListMode: 'blacklist',
+	importPatterns: [
+		'^\\..*',
+		'^~\\$.*',
+		'.*\\.bak$',
+		'.*~$'
+	].join('\n'),
+	importEnableCanvas: false,
+	importEnableBases: false,
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+	namingPattern: '{{originalName}}.{{originalExt}}.md',
+	storageLocation: 'same-folder',
+	templateEngine: 'builtin',
 
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
+	templateContent: DEFAULT_TEMPLATE, // <-- Use imported default
 
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc('It\'s a secret 1111 22222')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
-}
+	autoScanOnStartup: false,
+	conflictResolution: 'sync',
+	deleteBehavior: 'ask',
+	language: 'en',
+};

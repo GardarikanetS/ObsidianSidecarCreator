@@ -21,8 +21,10 @@
 			"DOM",
 			"ES5",
 			"ES6",
-			"ES7"
-		]
+			"ES7",
+			"ES2024"
+		],
+		"resolveJsonModule": true
 	},
 	"include": [
 		"src/**/*.ts"

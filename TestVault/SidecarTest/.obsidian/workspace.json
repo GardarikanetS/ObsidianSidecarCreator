@@ -13,28 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Добро пожаловать.md",
+                "file": "photo_2025-05-23_14-59-57.jpg.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Добро пожаловать"
-            }
-          }
-        ]
-      },
-      {
-        "id": "7f334bc4285e9d82",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "ee638697a53c2599",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Граф"
+              "title": "photo_2025-05-23_14-59-57.jpg"
             }
           }
         ]
@@ -110,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Добро пожаловать.md",
+                "file": "photo_2025-05-23_14-59-57.jpg.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Добро пожаловать"
+              "title": "Обратные ссылки для photo_2025-05-23_14-59-57.jpg"
             }
           },
           {
@@ -129,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Добро пожаловать.md",
+                "file": "photo_2025-05-23_14-59-57.jpg.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из Добро пожаловать"
+              "title": "Исходящие ссылки из photo_2025-05-23_14-59-57.jpg"
             }
           },
           {
@@ -172,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Добро пожаловать.md",
+                "file": "photo_2025-05-23_14-59-57.jpg.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура Добро пожаловать"
+              "title": "Структура photo_2025-05-23_14-59-57.jpg"
             }
           }
         ]
@@ -196,11 +180,28 @@
       "daily-notes:Сегодняшняя заметка": false,
       "templates:Вставить шаблон": false,
       "command-palette:Открыть палитру команд": false,
-      "bases:Создать новую базу": false
+      "bases:Создать новую базу": false,
+      "sample-plugin:Sample": false,
+      "obsidian42-brat:BRAT": false
     }
   },
   "active": "b6a3a5f84ad966a9",
   "lastOpenFiles": [
-    "Добро пожаловать.md"
+    "backup 2.bak.md",
+    "photo_2025-05-23_14-59-57.jpg.md",
+    "photo_2025-05-23_14-59-57.jpg",
+    "test 2",
+    "делаем 123134 фывафыва грязь.jpg",
+    "backup 2.bak",
+    "US-GardarikanetS-V13.2 1.klc",
+    "US-GardarikanetS-V13.2.klc",
+    "делаем 123134 фывафыва грязь.jpg.md",
+    "~$ксика A new old idea.docx",
+    "Лексика A new old 2222 idea.docx.md",
+    "Добро пожаловать.md",
+    "backup 1.bak",
+    "backup.bak",
+    "~$ксика A new old idea.docx.md",
+    "Лексика A new old idea.docx"
   ]
 }
