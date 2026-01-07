@@ -24,7 +24,7 @@ export class SampleSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Settings #1')
-			.setDesc('It\'s a secret')
+			.setDesc('It\'s a secret 1111 22222')
 			.addText(text => text
 				.setPlaceholder('Enter your secret')
 				.setValue(this.plugin.settings.mySetting)
