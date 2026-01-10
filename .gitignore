@@ -23,3 +23,9 @@ data.json
 
 # Sidecar ignores
 TestVault/SidecarTest/.obsidian/plugins/ObsidianSidecarCreator
+
+#vault files
+TestVault/SidecarTest/.obsidian/graph.json
+TestVault/SidecarTest/.obsidian/workspace.json
+TestVault/SidecarTest/.obsidian/workspace-mobile.json
+TestVault/SidecarTest/*
