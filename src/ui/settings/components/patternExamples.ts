@@ -1,3 +1,5 @@
+import { t } from '../../../i18n';
+
 export function renderPatternExamples(container: HTMLElement) {
 	const row = container.createDiv();
 	row.style.display = 'flex';
@@ -5,17 +7,17 @@ export function renderPatternExamples(container: HTMLElement) {
 	row.style.alignItems = 'baseline';
 	row.style.marginTop = '6px';
 
-	row.createEl('div', { text: '*Example:*', cls: 'setting-item-description' });
+	row.createEl('div', { text: t('settings.patterns.exampleLabel'), cls: 'setting-item-description' });
 
 	const link = row.createEl('a', {
-		text: 'JavaScript RegExp docs',
+		text: t('settings.patterns.docsLink'),
 		href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions',
 	});
 	link.style.fontSize = '12px';
 	link.style.whiteSpace = 'nowrap';
 
 	const ex = container.createDiv({ cls: 'setting-item-description' });
-	ex.createDiv({ text: '**Prefix** for `~$book.xlsx` use `^~\\$`' });
-	ex.createDiv({ text: '**Suffix** for `music (wip) - 1 lvl.avi` use `wip`' });
-	ex.createDiv({ text: '**Postfix** for `photo.jpg` use `\\.jpg$`' });
+	ex.createDiv({ text: t('settings.patterns.ex1') });
+	ex.createDiv({ text: t('settings.patterns.ex2') });
+	ex.createDiv({ text: t('settings.patterns.ex3') });
 }

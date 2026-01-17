@@ -3,6 +3,7 @@ import type { SettingsCtx } from '../types';
 import { DEFAULT_TEMPLATE } from '../../../assets/defaultTemplate';
 import { DEFAULT_NAMING_PATTERN, NAMING_VARS, TEMPLATE_VARS } from '../../../settings';
 import { VaultFolderSuggest } from '../components/vaultFolderSuggest';
+import { t } from '../../../i18n';
 
 export function renderNamingTemplatesTab(
 	container: HTMLElement,
@@ -12,9 +13,9 @@ export function renderNamingTemplatesTab(
 	const { plugin, app } = ctx;
 
 	// ======================
-	// Naming pattern (Header)
+	// Naming pattern
 	// ======================
-	container.createEl('h3', { text: 'Naming pattern' });
+	container.createEl('h3', { text: t('settings.naming.header') });
 
 	const namingInputWrap = container.createDiv();
 	namingInputWrap.style.marginTop = '6px';
@@ -29,34 +30,34 @@ export function renderNamingTemplatesTab(
 		await plugin.saveSettings();
 	};
 
-	// Reset button BELOW input
+	// Reset button
 	const namingResetRow = container.createDiv();
 	namingResetRow.style.display = 'flex';
 	namingResetRow.style.justifyContent = 'flex-end';
 	namingResetRow.style.marginBottom = '10px';
 
-	const namingResetBtn = namingResetRow.createEl('button', { text: 'Reset' });
+	const namingResetBtn = namingResetRow.createEl('button', { text: t('settings.naming.reset') });
 	namingResetBtn.onclick = async () => {
 		plugin.settings.namingPattern = DEFAULT_NAMING_PATTERN;
 		await plugin.saveSettings();
 		rerender();
 	};
 
-	// Available vars (not hardcoded)
+	// Available vars
 	const namingVarsWrap = container.createDiv({ cls: 'setting-item-description' });
 	namingVarsWrap.style.marginTop = '0';
 	namingVarsWrap.style.marginBottom = '18px';
-	namingVarsWrap.appendChild(renderVarsList('Available vars:', NAMING_VARS));
+	namingVarsWrap.appendChild(renderVarsList('settings.naming.availableVars', NAMING_VARS));
 
-	// Storage location (как было)
+	// Storage location
 	new Setting(container)
-		.setName('Storage location')
+		.setName(t('settings.naming.storageLocation'))
 		.addDropdown((d) =>
 			d
-				.addOption('same-folder', 'Same folder')
-				.addOption('vault-root', 'Vault root')
-				.addOption('custom-folder', 'Custom folder')
-				.addOption('active-file-folder', 'Active file folder')
+				.addOption('same-folder', t('settings.naming.storageLocation.sameFolder'))
+				.addOption('vault-root', t('settings.naming.storageLocation.vaultRoot'))
+				.addOption('custom-folder', t('settings.naming.storageLocation.customFolder'))
+				.addOption('active-file-folder', t('settings.naming.storageLocation.activeFileFolder'))
 				.setValue(plugin.settings.storageLocation)
 				.onChange(async (v) => {
 					plugin.settings.storageLocation = v as any;
@@ -66,12 +67,12 @@ export function renderNamingTemplatesTab(
 		);
 
 	if (plugin.settings.storageLocation === 'custom-folder') {
-		const s = new Setting(container).setName('Custom folder path');
-		s.addText((t) => {
-			t.setPlaceholder('Folder/Subfolder');
-			t.setValue(plugin.settings.customStoragePath);
-			new VaultFolderSuggest(app, t.inputEl);
-			t.onChange(async (v) => {
+		const s = new Setting(container).setName(t('settings.naming.customFolderPath'));
+		s.addText((tField) => {
+			tField.setPlaceholder(t('settings.naming.customFolderPlaceholder'));
+			tField.setValue(plugin.settings.customStoragePath);
+			new VaultFolderSuggest(app, tField.inputEl);
+			tField.onChange(async (v) => {
 				plugin.settings.customStoragePath = v;
 				await plugin.saveSettings();
 			});
@@ -79,18 +80,18 @@ export function renderNamingTemplatesTab(
 	}
 
 	// ==============
-	// Template (Header)
+	// Template
 	// ==============
-	container.createEl('h3', { text: 'Template', attr: { style: 'margin-top: 24px;' } });
+	container.createEl('h3', { text: t('settings.template.header'), attr: { style: 'margin-top: 24px;' } });
 
-	// Template engine with new option
+	// Template engine
 	new Setting(container)
-		.setName('Template engine')
+		.setName(t('settings.template.engine'))
 		.addDropdown((d) =>
 			d
-				.addOption('builtin', 'Built-in')
-				.addOption('core-templates', 'Native templates')
-				.addOption('templater', 'Templater')
+				.addOption('builtin', t('settings.template.engine.builtin'))
+				.addOption('core-templates', t('settings.template.engine.core'))
+				.addOption('templater', t('settings.template.engine.templater'))
 				.setValue(plugin.settings.templateEngine as any)
 				.onChange(async (v) => {
 					plugin.settings.templateEngine = v as any;
@@ -99,30 +100,30 @@ export function renderNamingTemplatesTab(
 				})
 		);
 
-	// Template available vars (not hardcoded)
+	// Template available vars
 	const tplVarsWrap = container.createDiv({ cls: 'setting-item-description' });
 	tplVarsWrap.style.marginTop = '0';
 	tplVarsWrap.style.marginBottom = '12px';
-	tplVarsWrap.appendChild(renderVarsList('Template available vars:', TEMPLATE_VARS));
+	tplVarsWrap.appendChild(renderVarsList('settings.template.availableVars', TEMPLATE_VARS));
 
 	// Engine-specific UI
 	if (plugin.settings.templateEngine === 'templater') {
 		new Setting(container)
-			.setName('Templater file path')
-			.addText((t) =>
-				t.setValue(plugin.settings.templaterPath).onChange(async (v) => {
+			.setName(t('settings.template.templaterPath'))
+			.addText((tField) =>
+				tField.setValue(plugin.settings.templaterPath).onChange(async (v) => {
 					plugin.settings.templaterPath = v;
 					await plugin.saveSettings();
 				})
 			);
 	}
 
-	// Built-in template UI (textarea + reset) only for builtin
+	// Built-in template UI
 	if (plugin.settings.templateEngine === 'builtin') {
 		new Setting(container)
-			.setName('Built-in template')
+			.setName(t('settings.template.builtinTemplate'))
 			.addButton((b) =>
-				b.setButtonText('Reset to default').onClick(async () => {
+				b.setButtonText(t('settings.template.resetDefault')).onClick(async () => {
 					plugin.settings.templateContent = DEFAULT_TEMPLATE;
 					await plugin.saveSettings();
 					rerender();
@@ -141,11 +142,11 @@ export function renderNamingTemplatesTab(
 		};
 	}
 
-	// About / Overlay header (после Template)
+	// About / Overlay header
 	new Setting(container)
-		.setName('About header')
-		.addText((t) =>
-			t.setValue(plugin.settings.aboutSectionHeader).onChange(async (v) => {
+		.setName(t('settings.about.header'))
+		.addText((tField) =>
+			tField.setValue(plugin.settings.aboutSectionHeader).onChange(async (v) => {
 				plugin.settings.aboutSectionHeader = v;
 				await plugin.saveSettings();
 			})
@@ -154,13 +155,13 @@ export function renderNamingTemplatesTab(
 
 // ---------- helpers ----------
 function renderVarsList(
-	title: string,
-	vars: Array<{ name: string; desc: string }>
+	titleKey: string,
+	vars: Array<{ name: string; descKey: string }>
 ): DocumentFragment {
 	const frag = document.createDocumentFragment();
 
 	const head = document.createElement('div');
-	head.textContent = title;
+	head.textContent = t(titleKey); // Локализуем заголовок
 	head.style.marginBottom = '6px';
 	frag.appendChild(head);
 
@@ -172,10 +173,10 @@ function renderVarsList(
 		const li = document.createElement('li');
 
 		const code = document.createElement('code');
-		code.textContent = v.name;
+		code.textContent = v.name; // Хардкод! Переменная выводится как есть (напр. {{date}})
 
 		li.appendChild(code);
-		li.appendChild(document.createTextNode(` — ${v.desc}`));
+		li.appendChild(document.createTextNode(` — ${t(v.descKey)}`)); // Локализуем описание
 		ul.appendChild(li);
 	}
 

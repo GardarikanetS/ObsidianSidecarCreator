@@ -4,6 +4,7 @@ import { SidecarService } from './core/sidecarService';
 import { shouldCreateSidecarForFile } from './core/fileClassifier';
 import { SidecarCreatorSettingTab } from './ui/settings/settingsTab';
 import { RenameSyncService } from './core/renameSync';
+import { setLanguage } from './i18n';
 
 export default class SidecarCreatorPlugin extends Plugin {
 	settings!: SidecarCreatorSettings;
@@ -37,6 +38,9 @@ export default class SidecarCreatorPlugin extends Plugin {
 				await this.renameSyncService.handleRename(file, oldPath);
 			})
 		);
+
+		await this.loadSettings();
+		setLanguage(this.settings.language);
 	}
 
 	onunload() {}

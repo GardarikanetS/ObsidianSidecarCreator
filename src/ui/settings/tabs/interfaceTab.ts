@@ -1,11 +1,13 @@
 import { Setting } from 'obsidian';
 import type { SettingsCtx } from '../types';
+import { t, AVAILABLE_LOCALES } from '../../../i18n';
+import { setLanguage } from '../../../i18n';
 
 export function renderInterfaceTab(container: HTMLElement, ctx: SettingsCtx) {
 	const { plugin } = ctx;
 
 	new Setting(container)
-		.setName('Always show embed links')
+		.setName(t('settings.interface.alwaysShowEmbedLinks'))
 		.addToggle((t) =>
 			t.setValue(plugin.settings.alwaysShowEmbedLinks).onChange(async (v) => {
 				plugin.settings.alwaysShowEmbedLinks = v;
@@ -14,18 +16,23 @@ export function renderInterfaceTab(container: HTMLElement, ctx: SettingsCtx) {
 		);
 
 	new Setting(container)
-		.setName('Language')
-		.addDropdown((d) =>
-			d
-				.addOption('obsidian', 'As in Obsidian')
-				.addOption('system', 'As in system')
-				.addOption('en', 'EN')
-				.addOption('ru', 'RU')
-				.addOption('custom', 'Custom')
-				.setValue(plugin.settings.language)
-				.onChange(async (v) => {
-					plugin.settings.language = v as any;
-					await plugin.saveSettings();
-				})
-		);
+		.setName(t('settings.interface.language'))
+		.addDropdown((d) => {
+			d.addOption('obsidian', t('settings.interface.language.obsidian'));
+			d.addOption('system', t('settings.interface.language.system'));
+			d.addOption('custom', t('settings.interface.language.custom'));
+
+			// Динамически добавляем языки из списка доступных
+			AVAILABLE_LOCALES.forEach((lang) => {
+				d.addOption(lang, lang);
+			});
+
+			d.setValue(plugin.settings.language);
+
+			d.onChange(async (v) => {
+				plugin.settings.language = v;
+				setLanguage(v);
+				await plugin.saveSettings();
+			});
+		});
 }

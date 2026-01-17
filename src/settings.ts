@@ -8,36 +8,37 @@ export type TemplateEngine = 'builtin' | 'templater'| 'core-templates';
 export type ConflictResolution = 'sync' | 'increment' | 'manual';
 export type DeleteBehavior = 'delete' | 'mark' | 'ask';
 
-export type LanguageMode = 'obsidian' | 'system' | 'en' | 'ru' | 'custom';
+// Изменено: тип string (для поддержки любых языков из файлов)
+export type LanguageMode = 'obsidian' | 'system' | 'custom' | string;
 
 export const DEFAULT_NAMING_PATTERN = '{{originalName}}.{{originalExt}}.md';
 
-export const NAMING_VARS: Array<{ name: string; desc: string }> = [
-	{ name: '{{originalName}}', desc: 'Filename without extension.' },
-	{ name: '{{originalExt}}', desc: 'Original file extension.' },
-	{ name: '{{date}}', desc: 'Current date.' },
+export const NAMING_VARS: Array<{ name: string; descKey: string }> = [
+	{ name: '{{originalName}}', descKey: 'vars.naming.originalName' },
+	{ name: '{{originalExt}}', descKey: 'vars.naming.originalExt' },
+	{ name: '{{date}}', descKey: 'vars.naming.date' },
 ];
-export const TEMPLATE_VARS: Array<{ name: string; desc: string }> = [
-	{ name: '{{originalWiki}}', desc: 'Original file name for wiki-link usage.' },
+export const TEMPLATE_VARS: Array<{ name: string; descKey: string }> = [
+	{ name: '{{originalWiki}}', descKey: 'vars.template.originalWiki' },
 ];
 
 
 export interface SidecarCreatorSettings {
-	// Import (create event) — MVP uses these
+	// Import (create event)
 	importEnabled: boolean;
 	importListMode: ListMode;
 	importPatterns: string;
 	importEnableCanvas: boolean;
 	importEnableBases: boolean;
 
-	// Vault scan filters (UI-only for now)
+	// Vault scan filters
 	scanSyncWithImport: boolean;
 	scanListMode: ListMode;
 	scanPatterns: string;
 	scanEnableCanvas: boolean;
 	scanEnableBases: boolean;
 
-	// Naming & templates (some are UI-only for now)
+	// Naming & templates
 	namingPattern: string;
 	storageLocation: StorageLocation;
 	customStoragePath: string; // vault-relative
@@ -46,14 +47,14 @@ export interface SidecarCreatorSettings {
 	templateContent: string; // editable built-in template
 	aboutSectionHeader: string;
 
-	// Automation (UI-only for now except importEnabled)
+	// Automation
 	autoScanOnStartup: boolean;
 	conflictResolution: ConflictResolution;
 	deleteBehavior: DeleteBehavior;
 	autoSwapLink: boolean;
 	disableAutoEmbed: boolean;
 
-	// Interface (UI-only for now)
+	// Interface
 	alwaysShowEmbedLinks: boolean;
 	language: LanguageMode;
 }
@@ -87,11 +88,11 @@ export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
 	aboutSectionHeader: 'About',
 
 	autoScanOnStartup: false,
-	conflictResolution: 'manual', // (п.9)
-	deleteBehavior: 'ask',        // (п.10)
+	conflictResolution: 'manual',
+	deleteBehavior: 'ask',
 	autoSwapLink: false,
 	disableAutoEmbed: false,
 
 	alwaysShowEmbedLinks: false,
-	language: 'obsidian',         // (п.11 список)
+	language: 'English', // Дефолт по имени файла
 };
