@@ -25,12 +25,14 @@
             "id": "57f19e09792aba5a",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.11.4"
+                "file": "testBase3.dat.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.11.4"
+              "icon": "lucide-file",
+              "title": "testBase3.dat"
             }
           }
         ],
@@ -199,6 +201,17 @@
   },
   "active": "57f19e09792aba5a",
   "lastOpenFiles": [
+    "photo_2025-10-03_02-40-35.md",
+    "testBase3.dat.md",
+    "testBase3.dat",
+    "test 3/photo_2025-10-03_02переделали-40-35.jpg.md",
+    "test 3/лефыавксика. docx.md",
+    "test 3/~$ксика A new old idea.docx.md",
+    "test 3/~$ксика A new old idea.docx",
+    "test 3/лефыавксика. docx",
+    "test 3/photo_2025-10-03_02переделали-40-35.jpg",
+    "Добро пожаловать.md",
+    "test 3",
     "backup 2.bak.md",
     "photo_2025-05-23_14-59-57.jpg.md",
     "photo_2025-05-23_14-59-57.jpg",
@@ -210,10 +223,7 @@
     "делаем 123134 фывафыва грязь.jpg.md",
     "~$ксика A new old idea.docx",
     "Лексика A new old 2222 idea.docx.md",
-    "Добро пожаловать.md",
     "backup 1.bak",
-    "backup.bak",
-    "~$ксика A new old idea.docx.md",
-    "Лексика A new old idea.docx"
+    "~$ксика A new old idea.docx.md"
   ]
 }

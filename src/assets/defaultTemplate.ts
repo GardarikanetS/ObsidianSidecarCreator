@@ -1,10 +1,10 @@
 export const DEFAULT_TEMPLATE = `---
 tags:
   - sidecar
-sidecar_linkToOriginal: "[[{{originalWiki}}]]"
+sidecar_linkToOriginal: "[[{{originalName}}.{{originalExt}}]]"
 ---
 
-![[{{originalWiki}}]]
+![[{{originalName}}.{{originalExt}}]]
 
 # About
 `;

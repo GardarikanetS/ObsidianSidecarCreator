@@ -1,7 +1,7 @@
 import { Setting } from 'obsidian';
 import type { SettingsCtx } from '../types';
 import { DEFAULT_TEMPLATE } from '../../../assets/defaultTemplate';
-import { DEFAULT_NAMING_PATTERN, NAMING_VARS, TEMPLATE_VARS } from '../../../settings';
+import { DEFAULT_NAMING_PATTERN, AVAILABLE_VARS } from '../../../settings'; // <-- Берем общий список
 import { VaultFolderSuggest } from '../components/vaultFolderSuggest';
 import { t } from '../../../i18n';
 
@@ -34,7 +34,7 @@ export function renderNamingTemplatesTab(
 	const namingResetRow = container.createDiv();
 	namingResetRow.style.display = 'flex';
 	namingResetRow.style.justifyContent = 'flex-end';
-	namingResetRow.style.marginBottom = '10px';
+	namingResetRow.style.marginBottom = '20px'; // Чуть больше отступ
 
 	const namingResetBtn = namingResetRow.createEl('button', { text: t('settings.naming.reset') });
 	namingResetBtn.onclick = async () => {
@@ -43,13 +43,21 @@ export function renderNamingTemplatesTab(
 		rerender();
 	};
 
-	// Available vars
-	const namingVarsWrap = container.createDiv({ cls: 'setting-item-description' });
-	namingVarsWrap.style.marginTop = '0';
-	namingVarsWrap.style.marginBottom = '18px';
-	namingVarsWrap.appendChild(renderVarsList('settings.naming.availableVars', NAMING_VARS));
+	// ======================
+	// Available Variables (Separate Header)
+	// ======================
+	container.createEl('h3', { text: t('settings.naming.varsHeader') });
 
+	const varsWrap = container.createDiv({ cls: 'setting-item-description' });
+	varsWrap.style.marginTop = '6px';
+	varsWrap.style.marginBottom = '24px';
+
+	// Рендерим общий список переменных
+	varsWrap.appendChild(renderVarsList(AVAILABLE_VARS));
+
+	// ======================
 	// Storage location
+	// ======================
 	new Setting(container)
 		.setName(t('settings.naming.storageLocation'))
 		.addDropdown((d) =>
@@ -79,12 +87,11 @@ export function renderNamingTemplatesTab(
 		});
 	}
 
-	// ==============
+	// ======================
 	// Template
-	// ==============
+	// ======================
 	container.createEl('h3', { text: t('settings.template.header'), attr: { style: 'margin-top: 24px;' } });
 
-	// Template engine
 	new Setting(container)
 		.setName(t('settings.template.engine'))
 		.addDropdown((d) =>
@@ -99,12 +106,6 @@ export function renderNamingTemplatesTab(
 					rerender();
 				})
 		);
-
-	// Template available vars
-	const tplVarsWrap = container.createDiv({ cls: 'setting-item-description' });
-	tplVarsWrap.style.marginTop = '0';
-	tplVarsWrap.style.marginBottom = '12px';
-	tplVarsWrap.appendChild(renderVarsList('settings.template.availableVars', TEMPLATE_VARS));
 
 	// Engine-specific UI
 	if (plugin.settings.templateEngine === 'templater') {
@@ -154,29 +155,22 @@ export function renderNamingTemplatesTab(
 }
 
 // ---------- helpers ----------
+// Функция теперь принимает только список переменных, без заголовка (заголовок рендерим снаружи)
 function renderVarsList(
-	titleKey: string,
 	vars: Array<{ name: string; descKey: string }>
 ): DocumentFragment {
 	const frag = document.createDocumentFragment();
-
-	const head = document.createElement('div');
-	head.textContent = t(titleKey); // Локализуем заголовок
-	head.style.marginBottom = '6px';
-	frag.appendChild(head);
-
 	const ul = document.createElement('ul');
 	ul.style.margin = '0';
 	ul.style.paddingLeft = '18px';
 
 	for (const v of vars) {
 		const li = document.createElement('li');
-
 		const code = document.createElement('code');
-		code.textContent = v.name; // Хардкод! Переменная выводится как есть (напр. {{date}})
+		code.textContent = v.name;
 
 		li.appendChild(code);
-		li.appendChild(document.createTextNode(` — ${t(v.descKey)}`)); // Локализуем описание
+		li.appendChild(document.createTextNode(` — ${t(v.descKey)}`));
 		ul.appendChild(li);
 	}
 

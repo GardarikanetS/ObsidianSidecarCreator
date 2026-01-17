@@ -8,30 +8,27 @@ export type TemplateEngine = 'builtin' | 'templater'| 'core-templates';
 export type ConflictResolution = 'sync' | 'increment' | 'manual';
 export type DeleteBehavior = 'delete' | 'mark' | 'ask';
 
-// Изменено: тип string (для поддержки любых языков из файлов)
 export type LanguageMode = 'obsidian' | 'system' | 'custom' | string;
 
 export const DEFAULT_NAMING_PATTERN = '{{originalName}}.{{originalExt}}.md';
 
-export const NAMING_VARS: Array<{ name: string; descKey: string }> = [
-	{ name: '{{originalName}}', descKey: 'vars.naming.originalName' },
-	{ name: '{{originalExt}}', descKey: 'vars.naming.originalExt' },
-	{ name: '{{date}}', descKey: 'vars.naming.date' },
+// ЕДИНЫЙ СПИСОК ПЕРЕМЕННЫХ
+// Чтобы добавить новую: просто добавь строку сюда и ключ в JSON.
+export const AVAILABLE_VARS: Array<{ name: string; descKey: string }> = [
+	{ name: '{{originalName}}', descKey: 'vars.originalName' },
+	{ name: '{{originalExt}}', descKey: 'vars.originalExt' },
+	{ name: '{{date}}', descKey: 'vars.date' },
 ];
-export const TEMPLATE_VARS: Array<{ name: string; descKey: string }> = [
-	{ name: '{{originalWiki}}', descKey: 'vars.template.originalWiki' },
-];
-
 
 export interface SidecarCreatorSettings {
-	// Import (create event)
+	// Import
 	importEnabled: boolean;
 	importListMode: ListMode;
 	importPatterns: string;
 	importEnableCanvas: boolean;
 	importEnableBases: boolean;
 
-	// Vault scan filters
+	// Vault scan
 	scanSyncWithImport: boolean;
 	scanListMode: ListMode;
 	scanPatterns: string;
@@ -41,10 +38,10 @@ export interface SidecarCreatorSettings {
 	// Naming & templates
 	namingPattern: string;
 	storageLocation: StorageLocation;
-	customStoragePath: string; // vault-relative
+	customStoragePath: string;
 	templateEngine: TemplateEngine;
-	templaterPath: string; // vault-relative
-	templateContent: string; // editable built-in template
+	templaterPath: string;
+	templateContent: string;
 	aboutSectionHeader: string;
 
 	// Automation
@@ -60,10 +57,10 @@ export interface SidecarCreatorSettings {
 }
 
 const DEFAULT_PATTERNS = [
-	'^\\..*',     // hidden
-	'^~\\$.*',    // Office temp
-	'.*\\.bak$',  // backups
-	'.*~$',       // temp suffix
+	'^\\..*',
+	'^~\\$.*',
+	'.*\\.bak$',
+	'.*~$',
 ].join('\n');
 
 export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
@@ -94,5 +91,5 @@ export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
 	disableAutoEmbed: false,
 
 	alwaysShowEmbedLinks: false,
-	language: 'English', // Дефолт по имени файла
+	language: 'English',
 };

@@ -46,7 +46,7 @@
 
 	"settings.naming.header": "Naming pattern",
 	"settings.naming.reset": "Reset",
-	"settings.naming.availableVars": "Available vars:",
+	"settings.naming.varsHeader": "Available variables",
 	"settings.naming.storageLocation": "Storage location",
 	"settings.naming.storageLocation.sameFolder": "Same folder",
 	"settings.naming.storageLocation.vaultRoot": "Vault root",
@@ -60,14 +60,12 @@
 	"settings.template.engine.builtin": "Built-in",
 	"settings.template.engine.core": "Native templates",
 	"settings.template.engine.templater": "Templater",
-	"settings.template.availableVars": "Template available vars:",
 	"settings.template.templaterPath": "Templater file path",
 	"settings.template.builtinTemplate": "Built-in template",
 	"settings.template.resetDefault": "Reset to default",
 	"settings.about.header": "About header",
 
-	"vars.naming.originalName": "Filename without extension.",
-	"vars.naming.originalExt": "Original file extension.",
-	"vars.naming.date": "Current date.",
-	"vars.template.originalWiki": "Original file name for wiki-link usage."
+	"vars.originalName": "Filename without extension",
+	"vars.originalExt": "Original file extension",
+	"vars.date": "Current date"
 }
