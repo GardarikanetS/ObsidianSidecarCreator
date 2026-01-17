@@ -2,7 +2,7 @@ import { Plugin, TFile } from 'obsidian';
 import { DEFAULT_SETTINGS, type SidecarCreatorSettings } from './settings';
 import { SidecarService } from './core/sidecarService';
 import { shouldCreateSidecarForFile } from './core/fileClassifier';
-import { SidecarCreatorSettingTab } from './ui/settingsTab';
+import { SidecarCreatorSettingTab } from './ui/settings/settingsTab';
 import { RenameSyncService } from './core/renameSync';
 
 export default class SidecarCreatorPlugin extends Plugin {

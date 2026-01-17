@@ -1,7 +1,7 @@
 {
 	"pluginName": "Sidecar Creator",
 	"noticeCreated": "Sidecar created",
-	"settingsImportHeader": "Obsidian import (create event)",
+	"settingsImportHeader": "Obsidian import",
 	"settingsCreateEnabled": "Enable creation on import",
 	"settingsCreateEnabledDesc": "Automatically create sidecar files when new files are added to Obsidian.",
 	"settingsListMode": "Filter Mode",
