@@ -9,10 +9,14 @@ export class SidecarService {
 	private templateManager: TemplateManager;
 	private editorIntegrator: EditorIntegrator;
 
-	constructor(private app: App, private settings: SidecarCreatorSettings) {
-		this.pathResolver = new PathResolver(app, settings);
-		this.templateManager = new TemplateManager(settings);
-		this.editorIntegrator = new EditorIntegrator(app, settings);
+	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {
+		// Передаем геттер
+		this.pathResolver = new PathResolver(app, getSettings);
+
+		// Для остальных сервисов пока передаем текущее значение,
+		// но лучше их тоже отрефакторить на использование геттера в будущем
+		this.templateManager = new TemplateManager(getSettings());
+		this.editorIntegrator = new EditorIntegrator(app, getSettings());
 	}
 
 	async ensureSidecarFor(original: TFile): Promise<TFile | null> {

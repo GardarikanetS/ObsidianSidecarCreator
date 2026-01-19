@@ -1,9 +1,10 @@
-import { normalizePath, type App, type TFile, type TFolder, moment } from 'obsidian';
+import { normalizePath, type App, type TFile, TFolder, moment, Notice } from 'obsidian';
 import type { SidecarCreatorSettings } from '../settings';
 import { DEFAULT_NAMING_PATTERN } from '../settings';
 
 export class PathResolver {
-	constructor(private app: App, private settings: SidecarCreatorSettings) {}
+	// Принимаем функцию-геттер, чтобы всегда получать актуальные настройки
+	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {}
 
 	public resolvePath(original: TFile): string {
 		const name = this.generateFileName(original);
@@ -12,7 +13,8 @@ export class PathResolver {
 	}
 
 	private generateFileName(original: TFile): string {
-		const namingPattern = this.settings.namingPattern || DEFAULT_NAMING_PATTERN;
+		const settings = this.getSettings();
+		const namingPattern = settings.namingPattern || DEFAULT_NAMING_PATTERN;
 		return namingPattern
 			.replaceAll('{{originalName}}', original.basename)
 			.replaceAll('{{originalExt}}', original.extension)
@@ -20,40 +22,74 @@ export class PathResolver {
 	}
 
 	private determineFolderPath(original: TFile): string {
-		if (this.settings.storageLocation === 'custom-folder') {
-			return this.settings.customStoragePath ?? '';
+		const settings = this.getSettings();
+
+		// 1. Custom folder - самый простой кейс
+		if (settings.storageLocation === 'custom-folder') {
+			return settings.customStoragePath ?? '';
 		}
 
-		let targetFolder: TFolder | null | undefined = null;
+		const root = this.app.vault.getRoot();
 
-		const originalFolder = original.parent || this.app.vault.getRoot();
+		// Получаем "папку, содержащую оригинал"
+		// Если оригинал в корне, originalFolder = root
+		const originalFolder = original.parent || root;
+
+		// Получаем "родителя папки оригинала"
+		// Если originalFolder = root, то parent = null.
 		const originalParent = originalFolder.parent;
 
+		// Получаем активный файл и его структуру
 		const activeFile = this.app.workspace.getActiveFile();
-		const activeFolder = activeFile ? activeFile.parent : null;
-		const activeParent = activeFolder ? activeFolder.parent : null;
+		const activeFolder = activeFile ? (activeFile.parent || root) : null;
 
-		switch (this.settings.storageLocation) {
+		// activeGrandParent - это папка НАД активным файлом
+		// Если активный файл в корне (activeFolder=root), то grandParent=null
+		const activeGrandParent = activeFolder ? activeFolder.parent : null;
+
+		let target: TFolder | null = null;
+
+		switch (settings.storageLocation) {
 			case 'same-folder':
-				targetFolder = originalFolder;
+				// Рядом с файлом
+				target = originalFolder;
 				break;
-			case 'original-parent-folder':
-				targetFolder = originalParent ?? originalFolder;
-				break;
+
 			case 'vault-root':
-				targetFolder = this.app.vault.getRoot();
+				// Всегда в корень
+				target = root;
 				break;
+
+			case 'original-parent-folder':
+				// На уровень выше оригинала
+				// Если оригинал уже в корне (originalFolder=root, parent=null), то остаемся в корне
+				target = originalParent ?? root;
+				break;
+
 			case 'active-file-folder':
-				targetFolder = activeFolder ?? originalFolder;
+				// Рядом с активным файлом
+				// Если активного нет -> рядом с оригиналом
+				target = activeFolder ?? originalFolder;
 				break;
+
 			case 'active-parent-folder':
-				const fallback = originalParent ?? originalFolder;
-				targetFolder = (activeFile && activeFolder) ? (activeParent ?? activeFolder) : fallback;
+				// На уровень выше активного файла
+				if (activeFile && activeFolder) {
+					// Если активный файл лежит в корне (activeFolder=root), то подняться выше нельзя -> root
+					// Если активный файл в Folder (activeFolder=Folder), то activeGrandParent -> root (или выше)
+					target = activeGrandParent ?? root;
+				} else {
+					// Если активного нет -> на уровень выше оригинала
+					target = originalParent ?? root;
+				}
 				break;
+
 			default:
-				targetFolder = originalFolder;
+				console.error(`Unknown storage location: ${settings.storageLocation}`);
+				new Notice(`Sidecar Error: Unknown storage location setting.`);
+				target = root; // fallback
 		}
 
-		return targetFolder ? targetFolder.path : '';
+		return target ? target.path : '';
 	}
 }

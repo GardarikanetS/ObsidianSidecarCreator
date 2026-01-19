@@ -15,7 +15,8 @@ export default class SidecarCreatorPlugin extends Plugin {
 		await this.loadSettings();
 
 		// Init services
-		this.sidecarService = new SidecarService(this.app, this.settings);
+		// Передаем стрелочную функцию, которая всегда вернет актуальные this.settings
+		this.sidecarService = new SidecarService(this.app, () => this.settings);
 		this.renameSyncService = new RenameSyncService(this.app, this.settings);
 
 		// Register Settings UI
@@ -39,7 +40,9 @@ export default class SidecarCreatorPlugin extends Plugin {
 			})
 		);
 
-		await this.loadSettings();
+		// УБРАНО: второй вызов loadSettings, который ломал ссылки на настройки
+		// await this.loadSettings();
+
 		setLanguage(this.settings.language);
 	}
 
