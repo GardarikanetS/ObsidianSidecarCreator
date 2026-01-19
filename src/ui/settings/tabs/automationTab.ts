@@ -2,7 +2,12 @@ import { Setting } from 'obsidian';
 import type { SettingsCtx } from '../types';
 import { t } from '../../../i18n';
 
-export function renderAutomationTab(container: HTMLElement, ctx: SettingsCtx) {
+// Добавляем rerender?: () => void в аргументы
+export function renderAutomationTab(
+	container: HTMLElement,
+	ctx: SettingsCtx,
+	rerender?: () => void
+) {
 	const { plugin } = ctx;
 
 	// Auto-scan (WIP)

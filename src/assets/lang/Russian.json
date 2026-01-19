@@ -37,6 +37,8 @@
 	"settings.automation.disableAutoEmbed": "Отключить авто-вставку (embed)",
 
 	"settings.interface.alwaysShowEmbedLinks": "Всегда показывать embed-ссылки",
+	"settings.interface.removeEmptyLines": "Удалять пустые строки между ссылками",
+	"settings.interface.removeEmptyLinesDesc": "Убирает лишние отступы при вставке нескольких файлов подряд.",
 	"settings.interface.language": "Язык",
 	"settings.interface.language.obsidian": "Как в Obsidian",
 	"settings.interface.language.system": "Как в системе",
@@ -46,12 +48,23 @@
 
 	"settings.naming.header": "Шаблон имени",
 	"settings.naming.reset": "Сброс",
-	"settings.naming.availableVars": "Доступные переменные:",
-	"settings.naming.storageLocation": "Место хранения",
-	"settings.naming.storageLocation.sameFolder": "Та же папка",
+	"settings.naming.varsHeader": "Доступные переменные:",
+	"settings.naming.storageLocation": "Место хранения Sidecar",
+
+	"settings.naming.storageLocation.sameFolder": "Папка оригинального файла",
 	"settings.naming.storageLocation.vaultRoot": "Корень хранилища",
 	"settings.naming.storageLocation.customFolder": "Своя папка",
 	"settings.naming.storageLocation.activeFileFolder": "Папка активного файла",
+	"settings.naming.storageLocation.originalParentFolder": "Родительская папка оригинального файла",
+	"settings.naming.storageLocation.activeParentFolder": "Родительская папка активного файла",
+
+	"settings.naming.storageLocationDesc.sameFolder": "Sidecar будет создан в той же папке, где находится оригинальный файл.",
+	"settings.naming.storageLocationDesc.vaultRoot": "Все sidecar файлы будут создаваться в корневой папке хранилища.",
+	"settings.naming.storageLocationDesc.customFolder": "Все sidecar файлы будут создаваться в указанной папке.",
+	"settings.naming.storageLocationDesc.activeFileFolder": "Sidecar будет создан в папке текущего активного файла. Если активного файла нет — используется папка оригинального файла.",
+	"settings.naming.storageLocationDesc.originalParentFolder": "Sidecar будет создан на уровень выше папки оригинала. Если оригинал в корне — останется в корне.",
+	"settings.naming.storageLocationDesc.activeParentFolder": "Sidecar будет создан на уровень выше папки текущего активного файла. Если активного файла нет — используется родительская папка оригинала.",
+
 	"settings.naming.customFolderPath": "Путь к папке",
 	"settings.naming.customFolderPlaceholder": "Папка/Подпапка",
 
@@ -60,7 +73,6 @@
 	"settings.template.engine.builtin": "Встроенный",
 	"settings.template.engine.core": "Obsidian Templates",
 	"settings.template.engine.templater": "Templater",
-	"settings.template.availableVars": "Переменные шаблона:",
 	"settings.template.templaterPath": "Путь к файлу Templater",
 	"settings.template.builtinTemplate": "Встроенный шаблон",
 	"settings.template.resetDefault": "Сбросить по умолчанию",
@@ -69,5 +81,10 @@
 	"vars.naming.originalName": "Имя файла без расширения.",
 	"vars.naming.originalExt": "Оригинальное расширение.",
 	"vars.naming.date": "Текущая дата.",
-	"vars.template.originalWiki": "Имя оригинала для wiki-ссылки."
+	"vars.template.originalWiki": "Имя оригинала для wiki-ссылки.",
+	"settings.naming.obsidianAttachmentsHeader": "Настройки вложений Obsidian",
+	"settings.naming.obsidianAttachmentsDesc": "Быстрый переход к стандартным настройкам расположения файлов.",
+	"settings.naming.obsidianLocation": "Папка для вложений",
+	"settings.naming.obsidianCustomPath": "Путь к папке вложений",
+	"settings.naming.openObsidianSettings": "Открыть настройки 'Файлы и ссылки'"
 }

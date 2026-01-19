@@ -1,9 +1,10 @@
-import { Setting } from 'obsidian';
+import { Setting, Notice } from 'obsidian';
 import type { SettingsCtx } from '../types';
 import { DEFAULT_TEMPLATE } from '../../../assets/defaultTemplate';
-import { DEFAULT_NAMING_PATTERN, AVAILABLE_VARS } from '../../../settings'; // <-- Берем общий список
+import { DEFAULT_NAMING_PATTERN, AVAILABLE_VARS } from '../../../settings';
 import { VaultFolderSuggest } from '../components/vaultFolderSuggest';
 import { t } from '../../../i18n';
+
 
 export function renderNamingTemplatesTab(
 	container: HTMLElement,
@@ -34,7 +35,7 @@ export function renderNamingTemplatesTab(
 	const namingResetRow = container.createDiv();
 	namingResetRow.style.display = 'flex';
 	namingResetRow.style.justifyContent = 'flex-end';
-	namingResetRow.style.marginBottom = '20px'; // Чуть больше отступ
+	namingResetRow.style.marginBottom = '20px';
 
 	const namingResetBtn = namingResetRow.createEl('button', { text: t('settings.naming.reset') });
 	namingResetBtn.onclick = async () => {
@@ -51,29 +52,34 @@ export function renderNamingTemplatesTab(
 	const varsWrap = container.createDiv({ cls: 'setting-item-description' });
 	varsWrap.style.marginTop = '6px';
 	varsWrap.style.marginBottom = '24px';
-
-	// Рендерим общий список переменных
 	varsWrap.appendChild(renderVarsList(AVAILABLE_VARS));
 
 	// ======================
 	// Storage location
 	// ======================
-	new Setting(container)
+	const storageSetting = new Setting(container)
 		.setName(t('settings.naming.storageLocation'))
 		.addDropdown((d) =>
 			d
 				.addOption('same-folder', t('settings.naming.storageLocation.sameFolder'))
+				.addOption('original-parent-folder', t('settings.naming.storageLocation.originalParentFolder'))
 				.addOption('vault-root', t('settings.naming.storageLocation.vaultRoot'))
 				.addOption('custom-folder', t('settings.naming.storageLocation.customFolder'))
 				.addOption('active-file-folder', t('settings.naming.storageLocation.activeFileFolder'))
+				.addOption('active-parent-folder', t('settings.naming.storageLocation.activeParentFolder'))
 				.setValue(plugin.settings.storageLocation)
 				.onChange(async (v) => {
 					plugin.settings.storageLocation = v as any;
 					await plugin.saveSettings();
-					rerender();
+					rerender(); // Полный ререндер для обновления описания и поля custom path
 				})
 		);
 
+	// Динамическое описание выбранной опции
+	const descKey = `settings.naming.storageLocationDesc.${plugin.settings.storageLocation}`;
+	storageSetting.setDesc(t(descKey));
+
+	// Поле для Custom Folder появляется только при выборе соответствующей опции
 	if (plugin.settings.storageLocation === 'custom-folder') {
 		const s = new Setting(container).setName(t('settings.naming.customFolderPath'));
 		s.addText((tField) => {
@@ -154,8 +160,6 @@ export function renderNamingTemplatesTab(
 		);
 }
 
-// ---------- helpers ----------
-// Функция теперь принимает только список переменных, без заголовка (заголовок рендерим снаружи)
 function renderVarsList(
 	vars: Array<{ name: string; descKey: string }>
 ): DocumentFragment {

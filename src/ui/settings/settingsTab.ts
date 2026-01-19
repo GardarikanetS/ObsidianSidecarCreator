@@ -1,82 +1,75 @@
 import { PluginSettingTab, App } from 'obsidian';
-import type SidecarCreatorPlugin from '../../main'; // Импортируем тип плагина
-import type { TabId, SettingsCtx } from './types';
+import type SidecarCreatorPlugin from '../../main';
+import { t } from '../../i18n';
+import type { SettingsCtx } from './types';
+
 import { renderFiltersTab } from './tabs/filtersTab';
 import { renderNamingTemplatesTab } from './tabs/namingTemplatesTab';
 import { renderAutomationTab } from './tabs/automationTab';
 import { renderInterfaceTab } from './tabs/interfaceTab';
 
 export class SidecarCreatorSettingTab extends PluginSettingTab {
-	plugin: SidecarCreatorPlugin; // <-- Добавлено свойство
-	private activeTab: TabId = 'filters';
+	plugin: SidecarCreatorPlugin;
+	activeTab: string;
 
 	constructor(app: App, plugin: SidecarCreatorPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
+		this.activeTab = 'filters';
 	}
 
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
+		containerEl.createEl('h2', { text: t('settings.title') });
 
-		containerEl.createEl('h2', { text: 'Sidecar Creator' });
+		// Tab navigation
+		const navContainer = containerEl.createDiv('settings-nav-container');
+		navContainer.style.display = 'flex';
+		navContainer.style.marginBottom = '20px';
+		navContainer.style.borderBottom = '1px solid var(--background-modifier-border)';
 
-		const tabHeader = containerEl.createDiv();
-		tabHeader.style.borderBottom = '1px solid var(--background-modifier-border)';
-		tabHeader.style.marginBottom = '16px';
-		tabHeader.style.display = 'flex';
-		tabHeader.style.flexWrap = 'wrap';
-		tabHeader.style.gap = '2px';
+		const tabs = [
+			{ id: 'filters', label: t('settings.tabs.filters') },
+			{ id: 'naming', label: t('settings.tabs.naming') },
+			{ id: 'automation', label: t('settings.tabs.automation') },
+			{ id: 'interface', label: t('settings.tabs.interface') },
+		];
 
-		this.renderTabButton(tabHeader, 'filters', 'File filters');
-		this.renderTabButton(tabHeader, 'naming', 'Naming & templates');
-		this.renderTabButton(tabHeader, 'automation', 'Automation');
-		this.renderTabButton(tabHeader, 'interface', 'Interface');
+		tabs.forEach((tab) => {
+			const btn = navContainer.createEl('button', { text: tab.label });
+			btn.style.marginRight = '10px';
+			btn.style.background = this.activeTab === tab.id ? 'var(--interactive-accent)' : '';
+			btn.style.color = this.activeTab === tab.id ? 'var(--text-on-accent)' : '';
+			btn.onclick = () => {
+				this.activeTab = tab.id;
+				this.display(); // Re-render logic
+			};
+		});
 
-		const tabContainer = containerEl.createDiv();
-
-		const ctx: SettingsCtx = { app: this.app, plugin: this.plugin };
-
-		// Исправлены вызовы: убрал третий аргумент там, где он, скорее всего, не поддерживается в функциях.
-		// Если ты хочешь, чтобы Automation и Interface поддерживали перерисовку, нужно править ИХ файлы.
-		// Пока что просто приведем вызов к текущим сигнатурам.
-
-		if (this.activeTab === 'filters') {
-			renderFiltersTab(tabContainer, ctx, () => this.display());
-		}
-		if (this.activeTab === 'naming') {
-			renderNamingTemplatesTab(tabContainer, ctx, () => this.display());
-		}
-		if (this.activeTab === 'automation') {
-			// Если renderAutomationTab принимает 2 аргумента:
-			renderAutomationTab(tabContainer, ctx);
-		}
-		if (this.activeTab === 'interface') {
-			// Если renderInterfaceTab принимает 2 аргумента:
-			renderInterfaceTab(tabContainer, ctx);
-		}
-	}
-
-	private renderTabButton(parent: HTMLElement, id: TabId, text: string) {
-		const btn = parent.createEl('button', { text });
-		btn.style.background = 'transparent';
-		btn.style.boxShadow = 'none';
-		btn.style.border = 'none';
-		btn.style.borderRadius = '0';
-		btn.style.cursor = 'pointer';
-		btn.style.padding = '8px 12px';
-		btn.style.fontWeight = '600';
-		btn.style.fontSize = '14px';
-		btn.style.whiteSpace = 'nowrap';
-
-		const isActive = this.activeTab === id;
-		btn.style.color = isActive ? 'var(--interactive-accent)' : 'var(--text-muted)';
-		btn.style.borderBottom = isActive ? '2px solid var(--interactive-accent)' : '2px solid transparent';
-		btn.style.marginBottom = '-1px';
-
-		btn.onclick = () => {
-			this.activeTab = id;
-			this.display();
+		// Content
+		const tabContainer = containerEl.createDiv('settings-tab-content');
+		const ctx: SettingsCtx = {
+			app: this.app,
+			plugin: this.plugin,
 		};
+
+		const rerender = () => this.display();
+
+		switch (this.activeTab) {
+			case 'filters':
+				renderFiltersTab(tabContainer, ctx, rerender);
+				break;
+			case 'naming':
+				renderNamingTemplatesTab(tabContainer, ctx, rerender);
+				break;
+			case 'automation':
+				renderAutomationTab(tabContainer, ctx, rerender);
+				break;
+			case 'interface':
+				// FIX: Передаем rerender третьим аргументом
+				renderInterfaceTab(tabContainer, ctx, rerender);
+				break;
+		}
 	}
 }

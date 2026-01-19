@@ -1,38 +1,56 @@
 import { Setting } from 'obsidian';
 import type { SettingsCtx } from '../types';
-import { t, AVAILABLE_LOCALES } from '../../../i18n';
-import { setLanguage } from '../../../i18n';
+import { t, setLanguage, STATIC_LANG_OPTIONS, AVAILABLE_LOCALES } from '../../../i18n';
 
-export function renderInterfaceTab(container: HTMLElement, ctx: SettingsCtx) {
+export function renderInterfaceTab(
+	container: HTMLElement,
+	ctx: SettingsCtx,
+	rerender: () => void
+) {
 	const { plugin } = ctx;
 
-	new Setting(container)
-		.setName(t('settings.interface.alwaysShowEmbedLinks'))
-		.addToggle((t) =>
-			t.setValue(plugin.settings.alwaysShowEmbedLinks).onChange(async (v) => {
-				plugin.settings.alwaysShowEmbedLinks = v;
-				await plugin.saveSettings();
-			})
-		);
-
+	// Language
 	new Setting(container)
 		.setName(t('settings.interface.language'))
 		.addDropdown((d) => {
-			d.addOption('obsidian', t('settings.interface.language.obsidian'));
-			d.addOption('system', t('settings.interface.language.system'));
-			d.addOption('custom', t('settings.interface.language.custom'));
-
-			// Динамически добавляем языки из списка доступных
-			AVAILABLE_LOCALES.forEach((lang) => {
-				d.addOption(lang, lang);
-			});
+			// Static options
+			STATIC_LANG_OPTIONS.forEach(opt =>
+				d.addOption(opt, t(`settings.interface.language.${opt}`))
+			);
+			// Loaded locales
+			AVAILABLE_LOCALES.forEach(lang => d.addOption(lang, lang));
 
 			d.setValue(plugin.settings.language);
-
 			d.onChange(async (v) => {
 				plugin.settings.language = v;
 				setLanguage(v);
 				await plugin.saveSettings();
+				rerender(); // Re-render all tabs to apply language
 			});
 		});
+
+	// Always show embed
+	new Setting(container)
+		.setName(t('settings.interface.alwaysShowEmbedLinks'))
+		.addToggle((t) =>
+			t
+				.setValue(plugin.settings.alwaysShowEmbedLinks)
+				.onChange(async (v) => {
+					plugin.settings.alwaysShowEmbedLinks = v;
+					await plugin.saveSettings();
+				})
+		);
+
+	// Remove empty lines (NEW)
+	new Setting(container)
+		.setName(t('settings.interface.removeEmptyLines'))
+		.setDesc(t('settings.interface.removeEmptyLinesDesc'))
+		.addToggle((t) =>
+			t
+				.setValue(plugin.settings.removeEmptyLinesBetweenLinks)
+				.onChange(async (v) => {
+					plugin.settings.removeEmptyLinesBetweenLinks = v;
+					await plugin.saveSettings();
+				})
+		);
 }

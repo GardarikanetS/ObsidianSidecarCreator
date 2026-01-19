@@ -48,10 +48,21 @@
 	"settings.naming.reset": "Reset",
 	"settings.naming.varsHeader": "Available variables",
 	"settings.naming.storageLocation": "Storage location",
-	"settings.naming.storageLocation.sameFolder": "Same folder",
+
+	"settings.naming.storageLocation.sameFolder": "Original file folder",
 	"settings.naming.storageLocation.vaultRoot": "Vault root",
 	"settings.naming.storageLocation.customFolder": "Custom folder",
 	"settings.naming.storageLocation.activeFileFolder": "Active file folder",
+	"settings.naming.storageLocation.originalParentFolder": "Original file's parent folder",
+	"settings.naming.storageLocation.activeParentFolder": "Active file's parent folder",
+
+	"settings.naming.storageLocationDesc.sameFolder": "Sidecar will be created in the same folder as the original file.",
+	"settings.naming.storageLocationDesc.vaultRoot": "All sidecar files will be created in the vault root.",
+	"settings.naming.storageLocationDesc.customFolder": "All sidecar files will be created in the specified folder.",
+	"settings.naming.storageLocationDesc.activeFileFolder": "Sidecar will be created in the folder of the currently active file. If no active file — uses original file folder.",
+	"settings.naming.storageLocationDesc.originalParentFolder": "Sidecar will be created one level up from the original file. If original is in root — stays in root.",
+	"settings.naming.storageLocationDesc.activeParentFolder": "Sidecar will be created one level up from the currently active file. If no active file — uses original file's parent folder.",
+
 	"settings.naming.customFolderPath": "Custom folder path",
 	"settings.naming.customFolderPlaceholder": "Folder/Subfolder",
 
@@ -65,7 +76,8 @@
 	"settings.template.resetDefault": "Reset to default",
 	"settings.about.header": "About header",
 
-	"vars.originalName": "Filename without extension",
-	"vars.originalExt": "Original file extension",
-	"vars.date": "Current date"
+	"vars.naming.originalName": "Filename without extension",
+	"vars.naming.originalExt": "Original file extension",
+	"vars.naming.date": "Current date",
+	"vars.template.originalWiki": "Original filename for wiki link"
 }

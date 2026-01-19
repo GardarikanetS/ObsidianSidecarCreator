@@ -4,35 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "26ce2d0a5be74a44",
+        "id": "49fcf799aeb4d77c",
         "type": "tabs",
         "children": [
           {
-            "id": "b6a3a5f84ad966a9",
+            "id": "db3fc296f8ffa136",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "photo_2025-05-23_14-59-57.jpg.md",
+                "file": "Untitled 2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "photo_2025-05-23_14-59-57.jpg"
+              "title": "Untitled 2"
             }
           },
           {
-            "id": "57f19e09792aba5a",
+            "id": "1338bdf7be19136c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "testBase3.dat.md",
+                "file": "multi link.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "testBase3.dat"
+              "title": "multi link"
             }
           }
         ],
@@ -199,31 +199,51 @@
       "obsidian42-brat:BRAT": false
     }
   },
-  "active": "57f19e09792aba5a",
+  "active": "1338bdf7be19136c",
   "lastOpenFiles": [
-    "photo_2025-10-03_02-40-35.md",
-    "testBase3.dat.md",
-    "testBase3.dat",
-    "test 3/photo_2025-10-03_02переделали-40-35.jpg.md",
-    "test 3/лефыавксика. docx.md",
-    "test 3/~$ксика A new old idea.docx.md",
-    "test 3/~$ксика A new old idea.docx",
-    "test 3/лефыавксика. docx",
-    "test 3/photo_2025-10-03_02переделали-40-35.jpg",
-    "Добро пожаловать.md",
-    "test 3",
-    "backup 2.bak.md",
-    "photo_2025-05-23_14-59-57.jpg.md",
+    "attachments/atts/Лексика A new old idea. docx.md",
+    "attachments/atts/Лексика A new old idea.docx",
+    "attachments/atts/матан. тетрадь арона. pdf.md",
+    "attachments/atts/матан. тетрадь арона.pdf",
+    "attachments/atts/backup.bak",
+    "Untitled 2.md",
+    "multi link.md",
+    "attachments/atts/Animals. kt-copy.md",
+    "attachments/atts/Animals.kt-copy",
+    "attachments/atts",
+    "attachments/Лексика A new old idea. docx.md",
+    "attachments/Лексика A new old idea.docx",
+    "attachments/Книга1. xlsx.md",
+    "attachments/Книга1.xlsx",
+    "attachments/photo_2025-05-23_14-59-57.jpg",
+    "Untitled 1.md",
+    "Animals. kt-copy.md",
+    "attachments/Animals.kt-copy",
+    "attachments",
+    "test 5/Untitled.md",
+    "photo_2025-05-23_14-59-57. jpg.md",
     "photo_2025-05-23_14-59-57.jpg",
-    "test 2",
-    "делаем 123134 фывафыва грязь.jpg",
-    "backup 2.bak",
-    "US-GardarikanetS-V13.2 1.klc",
-    "US-GardarikanetS-V13.2.klc",
-    "делаем 123134 фывафыва грязь.jpg.md",
-    "~$ксика A new old idea.docx",
-    "Лексика A new old 2222 idea.docx.md",
-    "backup 1.bak",
-    "~$ксика A new old idea.docx.md"
+    "photo_2025-10-03_02-40-35. jpg.md",
+    "photo_2025-10-03_02-40-35.jpg",
+    "test 5/test 5.md",
+    "test 5/testBase3.dat.md",
+    "test 5/anther 5 test.md",
+    "photo_2025-05-23_14-59-57.jpg.md",
+    "test 5/Анимация.gif.md",
+    "test 5/Анимация.gif",
+    "test 5/Книга1.xlsx.md",
+    "test 5/Книга1.xlsx",
+    "test 5/пособие_мачикина_новожилов.pdf.md",
+    "test 4/test 4.md",
+    "MmApplicationFramework.dll.md",
+    "Animals.kt-copy.md",
+    "CellUi.kt-copy.md",
+    "test 3/photo_2025-10-03_02переделали-40-35.jpg",
+    "~$ксика A new old idea.docx.md",
+    "Animals 2.kt-copy.md",
+    "CellUi 1.kt-copy.md",
+    "photo_2025-05-23_14-59-57 2.jpg",
+    "photo_2025-05-23_14-59-57 1.jpg",
+    "делаем 123134 фывафыва грязь.jpg"
   ]
 }

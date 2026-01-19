@@ -2,7 +2,14 @@ import { DEFAULT_TEMPLATE } from './assets/defaultTemplate';
 
 export type ListMode = 'blacklist' | 'whitelist';
 
-export type StorageLocation = 'same-folder' | 'vault-root' | 'custom-folder' | 'active-file-folder';
+export type StorageLocation =
+	| 'same-folder'
+	| 'vault-root'
+	| 'custom-folder'
+	| 'active-file-folder'
+	| 'original-parent-folder'
+	| 'active-parent-folder';
+
 export type TemplateEngine = 'builtin' | 'templater'| 'core-templates';
 
 export type ConflictResolution = 'sync' | 'increment' | 'manual';
@@ -12,12 +19,10 @@ export type LanguageMode = 'obsidian' | 'system' | 'custom' | string;
 
 export const DEFAULT_NAMING_PATTERN = '{{originalName}}.{{originalExt}}.md';
 
-// ЕДИНЫЙ СПИСОК ПЕРЕМЕННЫХ
-// Чтобы добавить новую: просто добавь строку сюда и ключ в JSON.
 export const AVAILABLE_VARS: Array<{ name: string; descKey: string }> = [
-	{ name: '{{originalName}}', descKey: 'vars.originalName' },
-	{ name: '{{originalExt}}', descKey: 'vars.originalExt' },
-	{ name: '{{date}}', descKey: 'vars.date' },
+	{ name: '{{originalName}}', descKey: 'vars.naming.originalName' },
+	{ name: '{{originalExt}}', descKey: 'vars.naming.originalExt' },
+	{ name: '{{date}}', descKey: 'vars.naming.date' },
 ];
 
 export interface SidecarCreatorSettings {
@@ -53,6 +58,7 @@ export interface SidecarCreatorSettings {
 
 	// Interface
 	alwaysShowEmbedLinks: boolean;
+	removeEmptyLinesBetweenLinks: boolean; // <-- NEW
 	language: LanguageMode;
 }
 
@@ -91,5 +97,6 @@ export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
 	disableAutoEmbed: false,
 
 	alwaysShowEmbedLinks: false,
+	removeEmptyLinesBetweenLinks: false, // <-- NEW
 	language: 'English',
 };
