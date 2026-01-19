@@ -41,16 +41,5 @@ export function renderInterfaceTab(
 				})
 		);
 
-	// Remove empty lines (NEW)
-	new Setting(container)
-		.setName(t('settings.interface.removeEmptyLines'))
-		.setDesc(t('settings.interface.removeEmptyLinesDesc'))
-		.addToggle((t) =>
-			t
-				.setValue(plugin.settings.removeEmptyLinesBetweenLinks)
-				.onChange(async (v) => {
-					plugin.settings.removeEmptyLinesBetweenLinks = v;
-					await plugin.saveSettings();
-				})
-		);
+
 }

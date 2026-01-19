@@ -1,6 +1,6 @@
-import { Setting } from 'obsidian';
-import type { SettingsCtx } from '../types';
-import { t } from '../../../i18n';
+import {Setting} from 'obsidian';
+import type {SettingsCtx} from '../types';
+import {t} from '../../../i18n';
 
 // Добавляем rerender?: () => void в аргументы
 export function renderAutomationTab(
@@ -8,7 +8,7 @@ export function renderAutomationTab(
 	ctx: SettingsCtx,
 	rerender?: () => void
 ) {
-	const { plugin } = ctx;
+	const {plugin} = ctx;
 
 	// Auto-scan (WIP)
 	new Setting(container)
@@ -42,6 +42,12 @@ export function renderAutomationTab(
 				await plugin.saveSettings();
 			})
 		);
+
+	const hr1 = container.createEl('hr');
+	hr1.style.marginTop = '20px';
+	hr1.style.marginBottom = '20px';
+	hr1.style.border = 'none';
+	hr1.style.borderTop = '1px solid var(--background-modifier-border)';
 
 	// Conflict resolution (WIP)
 	new Setting(container)
@@ -79,6 +85,12 @@ export function renderAutomationTab(
 				})
 		);
 
+	const hr2 = container.createEl('hr');
+	hr2.style.marginTop = '20px';
+	hr2.style.marginBottom = '20px';
+	hr2.style.border = 'none';
+	hr2.style.borderTop = '1px solid var(--background-modifier-border)';
+
 	// Auto swap link (WIP)
 	new Setting(container)
 		.setName(t('settings.automation.autoSwapLink'))
@@ -103,6 +115,17 @@ export function renderAutomationTab(
 				.setTooltip('Work in progress')
 				.onChange(async (v) => {
 					plugin.settings.disableAutoEmbed = v;
+					await plugin.saveSettings();
+				})
+		);
+	new Setting(container)
+		.setName(t('settings.interface.removeEmptyLines'))
+		.setDesc(t('settings.interface.removeEmptyLinesDesc'))
+		.addToggle((t) =>
+			t
+				.setValue(plugin.settings.removeEmptyLinesBetweenLinks)
+				.onChange(async (v) => {
+					plugin.settings.removeEmptyLinesBetweenLinks = v;
 					await plugin.saveSettings();
 				})
 		);
