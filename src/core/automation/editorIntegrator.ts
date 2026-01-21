@@ -22,24 +22,30 @@ export class EditorIntegrator {
 		const editor = view.editor;
 		const settings = this.getSettings();
 
+		// Если все автоматизации выключены — ничего не делаем (дефолтное поведение)
+		if (
+			!settings.autoSwapLink &&
+			!settings.disableAutoEmbed &&
+			!settings.removeEmptyLinesBetweenLinks
+		) {
+			return;
+		}
+
 		// Ждем завершения нативной вставки
 		await new Promise(resolve => setTimeout(resolve, 150));
 
-		let replaced = false;
-
 		// 1. Auto Swap
 		if (settings.autoSwapLink) {
-			replaced = this.autoSwap.swapLink(
+			this.autoSwap.swapLink(
 				editor,
 				original,
-				sidecar,
-				settings.alwaysShowEmbedLinks
+				sidecar
 			);
 		}
 
 		// 2. Auto Embed
-		// Вставляем, если НЕ заменили и если вставка НЕ отключена
-		if (!replaced && !settings.disableAutoEmbed) {
+		// Вставляем только если AutoSwap ВЫКЛЮЧЕН и вставка НЕ отключена
+		if (!settings.autoSwapLink && !settings.disableAutoEmbed) {
 			this.autoEmbed.insertLink(
 				editor,
 				sidecar,

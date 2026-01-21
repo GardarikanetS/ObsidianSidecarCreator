@@ -1,28 +1,38 @@
 import { Editor, TFile } from 'obsidian';
 
+function escapeRegExp(value: string) {
+	return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export class AutoSwap {
-	public swapLink(editor: Editor, original: TFile, sidecar: TFile, forceEmbed: boolean): boolean {
-		const content = editor.getValue();
-		// Экранируем имя файла для regex
-		const escapedName = original.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	public swapLink(editor: Editor, original: TFile, sidecar: TFile): boolean {
+		const cursor = editor.getCursor();
+		const escapedName = escapeRegExp(original.name);
+		const linkRegex = new RegExp(`(!?)\\[\\[${escapedName}(\\|[^\\]]+)?\\]\\]`);
 
-		// Ищем ссылку на оригинал:
-		// Группа 1 (!?): захватывает восклицательный знак (если есть)
-		// Далее [[имя_файла]]
-		const regex = new RegExp(`(!?)\\[\\[${escapedName}\\]\\]`, 'g');
+		// Ищем в пределах последних строк, куда Obsidian вставляет ссылки
+		const lookback = 8;
 
-		let hasMatch = false;
+		for (let i = 0; i <= lookback; i++) {
+			const lineNo = cursor.line - i;
+			if (lineNo < 0) break;
 
-		const newContent = content.replace(regex, (match, prefix) => {
-			hasMatch = true;
-			// Если forceEmbed=true, всегда ставим '!'. Иначе оставляем как было.
-			const finalPrefix = forceEmbed ? '!' : prefix;
-			return `${finalPrefix}[[${sidecar.name}]]`;
-		});
+			const line = editor.getLine(lineNo);
+			const match = line.match(linkRegex);
 
-		if (hasMatch && newContent !== content) {
-			editor.setValue(newContent);
-			return true;
+			if (match && typeof match.index === 'number') {
+				const [full, bang = '', alias = ''] = match;
+				const startCh = match.index;
+				const endCh = startCh + full.length;
+				const replacement = `${bang}[[${sidecar.name}${alias}]]`;
+
+				editor.replaceRange(
+					replacement,
+					{ line: lineNo, ch: startCh },
+					{ line: lineNo, ch: endCh }
+				);
+				return true;
+			}
 		}
 
 		return false;
