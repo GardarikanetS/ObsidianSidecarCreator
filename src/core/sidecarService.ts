@@ -1,8 +1,8 @@
-import type { App, TFile } from 'obsidian';
+import { TFile, type App } from 'obsidian';
 import type { SidecarCreatorSettings } from '../settings';
 import { PathResolver } from './pathResolver';
 import { TemplateManager } from './templateManager';
-import { EditorIntegrator } from './editorIntegrator';
+import { EditorIntegrator } from './automation/editorIntegrator'; // Обратите внимание: путь изменился согласно новой структуре!
 
 export class SidecarService {
 	private pathResolver: PathResolver;
@@ -10,13 +10,13 @@ export class SidecarService {
 	private editorIntegrator: EditorIntegrator;
 
 	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {
-		// Передаем геттер
 		this.pathResolver = new PathResolver(app, getSettings);
 
-		// Для остальных сервисов пока передаем текущее значение,
-		// но лучше их тоже отрефакторить на использование геттера в будущем
+		// TemplateManager пока принимает объект настроек (если вы его не рефакторили)
 		this.templateManager = new TemplateManager(getSettings());
-		this.editorIntegrator = new EditorIntegrator(app, getSettings());
+
+		// ИСПРАВЛЕНО: Передаем саму функцию getSettings (без скобок), а не результат её выполнения
+		this.editorIntegrator = new EditorIntegrator(app, getSettings);
 	}
 
 	async ensureSidecarFor(original: TFile): Promise<TFile | null> {
@@ -42,8 +42,9 @@ export class SidecarService {
 		const created = await this.app.vault.create(sidecarPath, content);
 
 		// 6. Automation (Editor)
-		// Если включена автозамена или вставка - зовем editorIntegrator
-		// TODO: Connect automation hooks
+		if (created instanceof TFile) {
+			await this.editorIntegrator.performFileInsertion(original, created);
+		}
 
 		return created;
 	}
