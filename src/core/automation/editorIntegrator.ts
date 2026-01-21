@@ -43,9 +43,11 @@ export class EditorIntegrator {
 			);
 		}
 
-		// 2. Auto Embed
-		// Вставляем только если AutoSwap ВЫКЛЮЧЕН и вставка НЕ отключена
-		if (!settings.autoSwapLink && !settings.disableAutoEmbed) {
+		// 2. Disable Auto Embed (убираем "!" перед вставленной ссылкой)
+		if (settings.disableAutoEmbed) {
+			this.autoEmbed.removeEmbedPrefix(editor, original, sidecar);
+		} else if (!settings.autoSwapLink) {
+			// Вставляем только если AutoSwap ВЫКЛЮЧЕН и вставка НЕ отключена
 			this.autoEmbed.insertLink(
 				editor,
 				sidecar,
