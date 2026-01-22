@@ -1,6 +1,17 @@
 {
 	"settings.title": "Sidecar Creator",
 
+	"modal.confirm.title": "Подтверждение",
+	"modal.confirm.confirm": "Удалить",
+	"modal.confirm.cancel": "Отмена",
+	"modal.deleteChoice.title": "Выберите действие",
+	"modal.deleteChoice.delete": "Удалить",
+	"modal.deleteChoice.mark": "Пометить",
+	"modal.deleteChoice.cancel": "Отмена",
+
+	"automation.confirm.deleteSidecar": "Что сделать с sidecar для «{{name}}»?",
+	"automation.confirm.deleteOriginal": "Что сделать с оригиналом «{{name}}»?",
+
 	"settings.tabs.filters": "Фильтры файлов",
 	"settings.tabs.naming": "Имена и шаблоны",
 	"settings.tabs.automation": "Автоматизация",
@@ -31,10 +42,14 @@
 	"settings.automation.conflictResolution.manual": "Спросить",
 	"settings.automation.onDelete": "При удалении оригинала",
 	"settings.automation.onDelete.delete": "Удалить sidecar",
-	"settings.automation.onDelete.mark": "Пометить как удаленный",
+	"settings.automation.onDelete.mark": "указать в sidecar, что original был удален",
 	"settings.automation.onDelete.ask": "Спросить",
+	"settings.automation.onDeleteSidecar": "При удалении sidecar",
+	"settings.automation.onDeleteSidecar.delete": "Удалить оригинал",
+	"settings.automation.onDeleteSidecar.mark": "Пометить оригинал как удаленный",
 	"settings.automation.autoSwapLink": "Автозамена ссылки в активном файле",
 	"settings.automation.disableAutoEmbed": "Отключить авто-вставку (embed)",
+	"settings.automation.modificationsDeletion": "Изменения и удаление",
 
 	"settings.interface.alwaysShowEmbedLinks": "Всегда показывать embed-ссылки",
 	"settings.interface.removeEmptyLines": "Удалять пустые строки между ссылками",
