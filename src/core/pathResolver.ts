@@ -1,6 +1,7 @@
-import { normalizePath, type App, type TFile, TFolder, moment, Notice } from 'obsidian';
+import { normalizePath, type App, type TFile, TFolder, Notice } from 'obsidian';
 import type { SidecarCreatorSettings } from '../settings';
 import { DEFAULT_NAMING_PATTERN } from '../settings';
+import { applyTemplateVariables, buildTemplateVariables } from './templateVariables';
 
 export class PathResolver {
 	// Принимаем функцию-геттер, чтобы всегда получать актуальные настройки
@@ -15,10 +16,7 @@ export class PathResolver {
 	private generateFileName(original: TFile): string {
 		const settings = this.getSettings();
 		const namingPattern = settings.namingPattern || DEFAULT_NAMING_PATTERN;
-		return namingPattern
-			.replaceAll('{{originalName}}', original.basename)
-			.replaceAll('{{originalExt}}', original.extension)
-			.replaceAll('{{date}}', moment().format('YYYY-MM-DD'));
+		return applyTemplateVariables(namingPattern, buildTemplateVariables(original));
 	}
 
 	private determineFolderPath(original: TFile): string {

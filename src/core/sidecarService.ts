@@ -1,7 +1,7 @@
 import { TFile, type App } from 'obsidian';
 import type { SidecarCreatorSettings } from '../settings';
 import { PathResolver } from './pathResolver';
-import { TemplateManager } from './templateManager';
+import { TemplateManager } from './templates/templateManager';
 import { EditorIntegrator } from './automation/editorIntegrator'; // Обратите внимание: путь изменился согласно новой структуре!
 
 export class SidecarService {
