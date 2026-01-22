@@ -25,4 +25,16 @@ export class TemplateManager {
 
 		return engine.applyTemplate(withVars, original);
 	}
+
+	private resolveEngine(engine: SidecarCreatorSettings['templateEngine']) {
+		switch (engine) {
+			case 'templater':
+				return this.templaterEngine;
+			case 'core-templates':
+				return this.coreTemplatesEngine;
+			case 'builtin':
+			default:
+				return this.builtinEngine;
+		}
+	}
 }

@@ -12,8 +12,7 @@ export class SidecarService {
 	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {
 		this.pathResolver = new PathResolver(app, getSettings);
 
-		// TemplateManager пока принимает объект настроек (если вы его не рефакторили)
-		this.templateManager = new TemplateManager(getSettings());
+		this.templateManager = new TemplateManager(app, getSettings);
 
 		// ИСПРАВЛЕНО: Передаем саму функцию getSettings (без скобок), а не результат её выполнения
 		this.editorIntegrator = new EditorIntegrator(app, getSettings);
