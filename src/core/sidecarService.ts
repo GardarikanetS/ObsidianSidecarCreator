@@ -4,6 +4,7 @@ import { PathResolver } from './pathResolver';
 import { TemplateManager } from './templates/templateManager';
 import { EditorIntegrator } from './automation/editorIntegrator'; // Обратите внимание: путь изменился согласно новой структуре!
 
+
 export class SidecarService {
 	private pathResolver: PathResolver;
 	private templateManager: TemplateManager;
@@ -58,8 +59,5 @@ export class SidecarService {
 		}
 	}
 
-	public async onDeleteOriginal(original: TFile) {
-		// TODO: Implement settings.deleteBehavior logic
-		// 'delete' | 'mark' | 'ask'
-	}
+
 }

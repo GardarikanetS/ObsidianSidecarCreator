@@ -5,11 +5,13 @@ import { shouldCreateSidecarForFile } from './core/fileClassifier';
 import { SidecarCreatorSettingTab } from './ui/settings/settingsTab';
 import { RenameSyncService } from './core/renameSync';
 import { setLanguage } from './i18n';
+import { DeletionService } from './core/deletion/deletionService';
 
 export default class SidecarCreatorPlugin extends Plugin {
 	settings!: SidecarCreatorSettings;
 	private sidecarService!: SidecarService;
 	private renameSyncService!: RenameSyncService;
+	private deletionAutomationService!: DeletionService;
 
 	async onload() {
 		await this.loadSettings();
@@ -18,6 +20,7 @@ export default class SidecarCreatorPlugin extends Plugin {
 		// Передаем стрелочную функцию, которая всегда вернет актуальные this.settings
 		this.sidecarService = new SidecarService(this.app, () => this.settings);
 		this.renameSyncService = new RenameSyncService(this.app, this.settings);
+		this.deletionAutomationService = new DeletionService(this.app, () => this.settings);
 
 		// Register Settings UI
 		this.addSettingTab(new SidecarCreatorSettingTab(this.app, this));
@@ -37,6 +40,14 @@ export default class SidecarCreatorPlugin extends Plugin {
 		this.registerEvent(
 			this.app.vault.on('rename', async (file, oldPath) => {
 				await this.renameSyncService.handleRename(file, oldPath);
+			})
+		);
+
+		// 3. Delete Event (Automation)
+		this.registerEvent(
+			this.app.vault.on('delete', async (file) => {
+				if (!(file instanceof TFile)) return;
+				await this.deletionAutomationService.handleDelete(file);
 			})
 		);
 
