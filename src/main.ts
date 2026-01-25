@@ -21,8 +21,10 @@ export default class SidecarCreatorPlugin extends Plugin {
 		this.sidecarService = new SidecarService(this.app, () => this.settings);
 		this.renameSyncService = new RenameSyncService(this.app, this.settings);
 		this.deletionAutomationService = new DeletionService(this.app, () => this.settings);
+		this.deletionAutomationService.registerEvents(this.registerEvent.bind(this));
 
-		// Register Settings UI
+
+
 		this.addSettingTab(new SidecarCreatorSettingTab(this.app, this));
 
 		// 1. Create Event (Auto-create sidecar)
@@ -43,13 +45,7 @@ export default class SidecarCreatorPlugin extends Plugin {
 			})
 		);
 
-		// 3. Delete Event (Automation)
-		this.registerEvent(
-			this.app.vault.on('delete', async (file) => {
-				if (!(file instanceof TFile)) return;
-				await this.deletionAutomationService.handleDelete(file);
-			})
-		);
+
 
 		// УБРАНО: второй вызов loadSettings, который ломал ссылки на настройки
 		// await this.loadSettings();
