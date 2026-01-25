@@ -3,7 +3,7 @@ import { DEFAULT_SETTINGS, type SidecarCreatorSettings } from './settings';
 import { SidecarService } from './core/sidecarService';
 import { shouldCreateSidecarForFile } from './core/fileClassifier';
 import { SidecarCreatorSettingTab } from './ui/settings/settingsTab';
-import { RenameSyncService } from './core/renameSync';
+import { RenameSyncService } from './core/renameSyncService';
 import { setLanguage } from './i18n';
 import { DeletionService } from './core/deletion/deletionService';
 
@@ -19,12 +19,12 @@ export default class SidecarCreatorPlugin extends Plugin {
 		// Init services
 		// Передаем стрелочную функцию, которая всегда вернет актуальные this.settings
 		this.sidecarService = new SidecarService(this.app, () => this.settings);
-		this.renameSyncService = new RenameSyncService(this.app, this.settings);
+		this.renameSyncService = new RenameSyncService(this.app, () => this.settings);
+		this.renameSyncService.registerEvents(this.registerEvent.bind(this));
 		this.deletionAutomationService = new DeletionService(this.app, () => this.settings);
 		this.deletionAutomationService.registerEvents(this.registerEvent.bind(this));
 
-
-
+		// Register Settings UI
 		this.addSettingTab(new SidecarCreatorSettingTab(this.app, this));
 
 		// 1. Create Event (Auto-create sidecar)
@@ -37,15 +37,6 @@ export default class SidecarCreatorPlugin extends Plugin {
 				await this.sidecarService.ensureSidecarFor(file);
 			})
 		);
-
-		// 2. Rename Event (Sync names)
-		this.registerEvent(
-			this.app.vault.on('rename', async (file, oldPath) => {
-				await this.renameSyncService.handleRename(file, oldPath);
-			})
-		);
-
-
 
 		// УБРАНО: второй вызов loadSettings, который ломал ссылки на настройки
 		// await this.loadSettings();
