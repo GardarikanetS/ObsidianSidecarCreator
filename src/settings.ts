@@ -14,6 +14,7 @@ export type TemplateEngine = 'builtin' | 'templater'| 'core-templates';
 
 export type ConflictResolution = 'sync' | 'increment' | 'manual';
 export type DeleteBehavior = 'delete' | 'mark' | 'ask';
+export type SidecarDeleteBehavior = 'delete' | 'none';
 
 export type LanguageMode = 'obsidian' | 'system' | 'custom' | string;
 
@@ -53,6 +54,7 @@ export interface SidecarCreatorSettings {
 	autoScanOnStartup: boolean;
 	conflictResolution: ConflictResolution;
 	deleteBehavior: DeleteBehavior;
+	deleteSidecarBehavior: SidecarDeleteBehavior;
 	autoSwapLink: boolean;
 	disableAutoEmbed: boolean;
 
@@ -93,6 +95,7 @@ export const DEFAULT_SETTINGS: SidecarCreatorSettings = {
 	autoScanOnStartup: false,
 	conflictResolution: 'manual',
 	deleteBehavior: 'ask',
+	deleteSidecarBehavior: 'none',
 	autoSwapLink: false,
 	disableAutoEmbed: false,
 

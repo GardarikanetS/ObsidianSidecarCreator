@@ -2,6 +2,7 @@ import type { SettingsCtx } from '../types';
 import { renderVaultScanSettings } from './automation/vaultScan';
 import { renderSidecarModifySettings } from './automation/sidecarModify';
 import { renderEditorIntegratorSettings } from './automation/editorIntegrator';
+import { renderDeletionSettings } from './automation/deletion';
 
 export function renderAutomationTab(
 	container: HTMLElement,
@@ -24,4 +25,11 @@ export function renderAutomationTab(
 
 	// 3. Editor Integration (Swap, Embed, Lines)
 	renderEditorIntegratorSettings(container, ctx);
+
+	const hr3 = container.createEl('hr');
+	hr3.style.marginTop = '20px';
+	hr3.style.marginBottom = '20px';
+
+	// 4. Deletion
+	renderDeletionSettings(container, ctx);
 }

@@ -16,8 +16,8 @@ export class DeletionService {
 	private ifOriginalDeletedService: IfOriginalDeletedService;
 
 	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {
-		this.ifSidecarDeletedService = new IfSidecarDeletedService(app);
-		this.ifOriginalDeletedService = new IfOriginalDeletedService(app);
+		this.ifSidecarDeletedService = new IfSidecarDeletedService(app, getSettings);
+		this.ifOriginalDeletedService = new IfOriginalDeletedService(app, getSettings);
 	}
 
 	registerEvents(registerEvent: (eventRef: EventRef) => void): void {
@@ -34,7 +34,7 @@ export class DeletionService {
 		this.log('1', `Получено событие удаления: ${file.path}`);
 
 		const isMarkdown = file.extension.toLowerCase() === 'md';
-		this.log('2', `Определяем тип фала: ${isMarkdown ? 'md' : 'non-md'}`);
+		this.log('2', `Определяем тип файла: ${isMarkdown ? 'md' : 'non-md'}`);
 
 		if (isMarkdown) {
 			await this.handleSidecarDeletion(file);
