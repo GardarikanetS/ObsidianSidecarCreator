@@ -14,6 +14,7 @@ type OriginalLinkResult =
 export class DeletionService {
 	private ifSidecarDeletedService: IfSidecarDeletedService;
 	private ifOriginalDeletedService: IfOriginalDeletedService;
+	readonly filesToSkip: Set<TFile> = new Set();
 
 	constructor(private app: App, private getSettings: () => SidecarCreatorSettings) {
 		this.ifSidecarDeletedService = new IfSidecarDeletedService(app, getSettings);
@@ -33,8 +34,13 @@ export class DeletionService {
 	async handleDelete(file: TFile): Promise<void> {
 		this.log('1', `Получено событие удаления: ${file.path}`);
 
+		if (this.consumeSkipFile(file)) {
+			this.log('1.1', 'Файл находится в списке пропуска, удаляем из списка и выходим.');
+			return;
+		}
+
 		const isMarkdown = file.extension.toLowerCase() === 'md';
-		this.log('2', `Определяем тип файла: ${isMarkdown ? 'md' : 'non-md'}`);
+		this.log('2', `Определяем тип фала: ${isMarkdown ? 'md' : 'non-md'}`);
 
 		if (isMarkdown) {
 			await this.handleSidecarDeletion(file);
@@ -216,12 +222,22 @@ export class DeletionService {
 		return pathWithoutHeading.trim();
 	}
 
+	addFileToSkip(file: TFile): void {
+		this.filesToSkip.add(file);
+	}
+
+	private consumeSkipFile(file: TFile): boolean {
+		if (!this.filesToSkip.has(file)) return false;
+		this.filesToSkip.delete(file);
+		return true;
+	}
+
 	private showError(message: string): void {
 		new Notice(`[Sidecar Creator] ${message}`);
 		console.warn(`[Sidecar Creator][Deletion] ${message}`);
 	}
 
 	private log(step: string, message: string): void {
-		console.log(`[Sidecar Creator][DeletionService] Шаг ${step}: ${message}`);
+		console.log(`[Sidecar Creator][Deletion] Шаг ${step}: ${message}`);
 	}
 }
