@@ -222,6 +222,6 @@ export class DeletionService {
 	}
 
 	private log(step: string, message: string): void {
-		console.log(`[Sidecar Creator][Deletion] Шаг ${step}: ${message}`);
+		console.log(`[Sidecar Creator][DeletionService] Шаг ${step}: ${message}`);
 	}
 }
